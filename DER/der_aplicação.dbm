@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.7.0">
+<database name="carrinho_compras">
+</database>
+
+<schema name="public" protected="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="produto">
+	<schema name="public"/>
+	<position x="501" y="24"/>
+	<column name="id" not-null="true">
+		<type name="bigint"/>
+	</column>
+	<column name="nome">
+		<type name="varchar"/>
+	</column>
+	<column name="preco">
+		<type name="decimal"/>
+	</column>
+	<column name="quantidade">
+		<type name="integer"/>
+	</column>
+	<column name="tipo">
+		<type name="integer"/>
+	</column>
+	<constraint name="pk_produto" type="pk-constr" factor="10" table="public.produto">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="carrinho_compras">
+	<schema name="public"/>
+	<position x="512" y="323"/>
+	<column name="id" not-null="true">
+		<type name="bigint"/>
+	</column>
+	<column name="total">
+		<type name="decimal"/>
+	</column>
+	<column name="sub_total">
+		<type name="decimal"/>
+	</column>
+	<constraint name="pk_carrinho_compras" type="pk-constr" factor="10" table="public.carrinho_compras">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="cupom">
+	<schema name="public"/>
+	<position x="952" y="335"/>
+	<column name="id" not-null="true">
+		<type name="bigint"/>
+	</column>
+	<column name="descricao">
+		<type name="varchar"/>
+	</column>
+	<column name="desconto">
+		<type name="integer"/>
+	</column>
+	<column name="is_cupom_usado">
+		<type name="boolean"/>
+	</column>
+	<constraint name="pk_cupom" type="pk-constr" factor="10" table="public.cupom">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="produto_seq"
+	 start="1" increment="1"
+	 min-value="0" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="carrinho_compras_seq"
+	 start="1" increment="1"
+	 min-value="0" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="cupom_seq"
+	 start="1" increment="1"
+	 min-value="0" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<relationship name="cupom_has_many_carrinho_compras" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 col-indexes="3" constr-indexes="1"
+	 src-table="public.cupom"
+	 dst-table="public.carrinho_compras"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="produto_has_many_carrinho_compras" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 col-indexes="4" constr-indexes="2"
+	 src-table="public.produto"
+	 dst-table="public.carrinho_compras"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
