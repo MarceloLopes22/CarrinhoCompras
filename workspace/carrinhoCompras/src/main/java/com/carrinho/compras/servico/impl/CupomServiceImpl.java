@@ -1,6 +1,7 @@
 package com.carrinho.compras.servico.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +104,7 @@ public class CupomServiceImpl implements CupomService {
 		
 		Optional<Cupom> cupom = dao.findById(idCupom);
 		if (cupom != null && cupom.isPresent()) {
-			response.setData(cupom);
+			response.setData(cupom.get());
 			response.setHttpStatus(HttpStatus.FOUND);
 		} else {
 			response.setHttpStatus(HttpStatus.BAD_REQUEST);
@@ -111,6 +112,11 @@ public class CupomServiceImpl implements CupomService {
 		}
 		
 		return new ResponseEntity<Response<Cupom>>(response, response.getHttpStatus());
+	}
+
+	@Override
+	public void salvarLista(List<Cupom> cupons) {
+		dao.saveAll(cupons);
 	}
 
 }

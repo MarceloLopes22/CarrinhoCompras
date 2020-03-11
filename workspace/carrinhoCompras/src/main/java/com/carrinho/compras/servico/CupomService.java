@@ -1,5 +1,7 @@
 package com.carrinho.compras.servico;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,4 +20,6 @@ public interface CupomService {
 	public ResponseEntity<Response<Page<Cupom>>> listar(int page, int count);
 
 	public ResponseEntity<Response<Cupom>> pesquisarPorId(Long idCupom);
+	
+	public void salvarLista(List<Cupom> cupons);
 }

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.7.0">
+<database name="carrinho_compras_atual">
+</database>
+
+<schema name="public" protected="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="pedido">
+	<schema name="public"/>
+	<position x="552" y="222"/>
+	<column name="id_carrinho_compras">
+		<type name="bigint"/>
+	</column>
+	<column name="id_produto">
+		<type name="bigint"/>
+	</column>
+</table>
+
+<table name="produto">
+	<schema name="public"/>
+	<position x="936" y="204"/>
+	<column name="id">
+		<type name="bigint"/>
+	</column>
+	<column name="nome">
+		<type name="varchar"/>
+	</column>
+	<column name="preco">
+		<type name="decimal"/>
+	</column>
+	<column name="quantidade">
+		<type name="integer"/>
+	</column>
+	<column name="tipo">
+		<type name="integer"/>
+	</column>
+	<constraint name="pk_produto" type="pk-constr" factor="10" table="public.produto">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="cupom">
+	<schema name="public"/>
+	<position x="163" y="442"/>
+	<column name="id">
+		<type name="bigint"/>
+	</column>
+	<column name="descricao">
+		<type name="varchar"/>
+	</column>
+	<column name="desconto">
+		<type name="integer"/>
+	</column>
+	<column name="is_cupom_usado">
+		<type name="boolean"/>
+	</column>
+	<constraint name="pk_cupom" type="pk-constr" factor="10" table="public.cupom">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="carrinho_compras">
+	<schema name="public"/>
+	<appended-sql><![CDATA[DROP TABLE "public"."carrinho_compras";
+DROP TABLE "public"."cupom";
+DROP TABLE "public"."pedido";
+DROP TABLE "public"."produto";
+
+INSERT INTO CUPOM (id,descricao,desconto,is_cupom_usado) VALUES (nextval('cupom_seq'),'Desconto 10%',10,false);
+INSERT INTO CUPOM (id,descricao,desconto,is_cupom_usado) VALUES (nextval('cupom_seq'),'Desconto 40%',40,false);
+INSERT INTO CUPOM (id,descricao,desconto,is_cupom_usado) VALUES (nextval('cupom_seq'),'Desconto 20%',20,false);
+INSERT INTO CUPOM (id,descricao,desconto,is_cupom_usado) VALUES (nextval('cupom_seq'),'Desconto 30%',30,true);
+
+INSERT INTO PRODUTO (id,nome,preco,quantidade,tipo) VALUES (nextval('produto_seq'),'TV',2500,10,0);
+INSERT INTO PRODUTO (id,nome,preco,quantidade,tipo) VALUES (nextval('produto_seq'),'Computador Dell',5000,10,0);
+INSERT INTO PRODUTO (id,nome,preco,quantidade,tipo) VALUES (nextval('produto_seq'),'Impressora HP',500,10,0);]]></appended-sql>
+	<position x="172" y="203"/>
+	<column name="id">
+		<type name="bigint"/>
+	</column>
+	<column name="total">
+		<type name="decimal"/>
+	</column>
+	<column name="sub_total">
+		<type name="decimal"/>
+	</column>
+	<column name="id_cupom">
+		<type name="bigint"/>
+	</column>
+	<constraint name="pk_carrinho" type="pk-constr" factor="10" table="public.carrinho_compras">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="cupom_seq"
+	 start="1" increment="1"
+	 min-value="0" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="produto_seq"
+	 start="1" increment="1"
+	 min-value="0" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="carrinho_compras_Seq"
+	 start="1" increment="1"
+	 min-value="0" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="carrinho_compras_seq"
+	 start="1" increment="1"
+	 min-value="0" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<constraint name="fk_carrinho" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.carrinho_compras" table="public.pedido">
+	<columns names="id_carrinho_compras" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+<constraint name="fk_produto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.produto" table="public.pedido">
+	<columns names="id_produto" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+<constraint name="fk_cupom" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.cupom" table="public.carrinho_compras">
+	<columns names="id_cupom" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_pedido_carrinho_compras" type="relfk"
+	 src-table="public.pedido"
+	 dst-table="public.carrinho_compras"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_pedido_produto" type="relfk"
+	 src-table="public.pedido"
+	 dst-table="public.produto"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_carrinho_compras_cupom" type="relfk"
+	 src-table="public.carrinho_compras"
+	 dst-table="public.cupom"
+	 src-required="true" dst-required="true"/>
+
+</dbmodel>

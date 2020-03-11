@@ -1,6 +1,7 @@
 package com.carrinho.compras.servico.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +105,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 		
 		Optional<Produto> produto = dao.findById(idProduto);
 		if (produto != null && produto.isPresent()) {
-			response.setData(produto);
+			response.setData(produto.get());
 			response.setHttpStatus(HttpStatus.FOUND);
 		} else {
 			response.setHttpStatus(HttpStatus.BAD_REQUEST);
@@ -112,6 +113,11 @@ public class ProdutoServiceImpl implements ProdutoService {
 		}
 		
 		return new ResponseEntity<Response<Produto>>(response, response.getHttpStatus());
+	}
+
+	@Override
+	public void salvarLista(List<Produto> produtos) {
+		dao.saveAll(produtos);
 	}
 
 }

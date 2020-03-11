@@ -29,7 +29,11 @@ public class Cupom implements Serializable {
 	private Integer desconto;
 	
 	@Column(name = "is_cupom_usado")
-	private boolean isCupomUsado;
+	private Boolean isCupomUsado;
+	
+	public Cupom() {
+		this.setCupomUsado(false);
+	}
 
 	public Long getId() {
 		return id;
@@ -55,11 +59,11 @@ public class Cupom implements Serializable {
 		this.desconto = desconto;
 	}
 
-	public boolean isCupomUsado() {
+	public Boolean isCupomUsado() {
 		return isCupomUsado;
 	}
 
-	public void setCupomUsado(boolean isCupomUsado) {
+	public void setCupomUsado(Boolean isCupomUsado) {
 		this.isCupomUsado = isCupomUsado;
 	}
 }
