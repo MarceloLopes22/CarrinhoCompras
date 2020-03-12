@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import com.carrinho.compras.enums.TipoProduto;
 
 @Entity
-@SequenceGenerator(allocationSize = 1, initialValue = 1, name = "produto_seq", sequenceName = "produto_seq")
+@SequenceGenerator(allocationSize = 1, name = "produto_seq", sequenceName = "produto_seq")
 @Table(name = "produto")
 public class Produto implements Serializable {
 

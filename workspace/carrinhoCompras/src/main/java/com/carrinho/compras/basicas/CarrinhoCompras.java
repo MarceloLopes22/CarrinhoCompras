@@ -5,24 +5,24 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 @Entity
-@SequenceGenerator(allocationSize = 1, initialValue = 1, name = "carrinho_compras_seq", sequenceName = "carrinho_compras_seq")
+@SequenceGenerator(allocationSize = 1, name = "carrinho_compras_seq", sequenceName = "carrinho_compras_seq")
 @Table(name = "carrinho_compras")
 public class CarrinhoCompras implements Serializable {
 
@@ -38,22 +38,19 @@ public class CarrinhoCompras implements Serializable {
 
 	@Column(name = "sub_total")
 	private BigDecimal subTotal;
-
-//	@OneToMany(orphanRemoval = true)
-//    @JoinColumn(name = "id", foreignKey = @ForeignKey(name = "id_cupom"))
-//	private List<Cupom> cupons = new ArrayList<>();
 	
-	@OneToOne
-	@JoinColumn(name = "id_cupom")
+	@ManyToOne
+	@JoinColumn(name = "id_cupom", nullable = true)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private Cupom cupom;
-
-	@Transient
-	private List<Cupom> cupons = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "pedido", joinColumns = { @JoinColumn(name = "id_carrinho_compras") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_produto") })
 	private List<Produto> produtos = new ArrayList<>();
+	
+	@Transient
+	private List<Cupom> cupons = new ArrayList<>();
 
 	public Long getId() {
 		return id;

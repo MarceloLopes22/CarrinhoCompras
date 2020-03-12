@@ -49,7 +49,7 @@ public class CarrinhoComprasServiceImpl implements CarrinhoComprasService {
 		aplicarCupomMaiorValor(carrinhoCompras, response);
 		
 		if (response.getErros().isEmpty()) {
-			carrinhoCompras = dao.save(carrinhoCompras);
+			carrinhoCompras = dao.saveAndFlush(carrinhoCompras);
 			response.setData(carrinhoCompras);
 			response.setHttpStatus(HttpStatus.CREATED);
 			response.setMensagemSucesso("Compra efetuada com sucesso!");
@@ -66,7 +66,7 @@ public class CarrinhoComprasServiceImpl implements CarrinhoComprasService {
 		
 		if (carrinhoCompras != null && carrinhoCompras.getCupons().size() > 0) {
 			
-			maiorValor = carrinhoCompras.getCupons().get(0).getDesconto();
+			maiorValor = Integer.MIN_VALUE;
 			
 			for (int i = 0; i < carrinhoCompras.getCupons().size(); i++) {
 				if (carrinhoCompras.getCupons().get(i).getDesconto() > maiorValor) {
@@ -112,25 +112,27 @@ public class CarrinhoComprasServiceImpl implements CarrinhoComprasService {
 		BigDecimal valorTotal = BigDecimal.ZERO;
 		BigDecimal valorSubTotal = BigDecimal.ZERO;
 		
-		for (Produto produto : carrinhoCompras.getProdutos()) {
-			BigDecimal quantidade = BigDecimal.valueOf(produto.getQuantidade());
-			valorSubTotal = quantidade.multiply(produto.getPreco());
-			valorTotal = valorTotal.add(valorSubTotal);
-			valorSubTotal = valorTotal;
-		}
-		
-		carrinhoCompras.setSubTotal(valorSubTotal);
-		carrinhoCompras.setTotal(valorTotal);
-		
-		if (carrinhoCompras.getTotal().intValue() >= 1000 && carrinhoCompras.getTotal().intValue() < 5000) {
-			// aplicar 5% desconto no valor total.
-			aplicarDescontoNoValorTotal(carrinhoCompras, 5);
-		} else if (carrinhoCompras.getTotal().intValue() >= 5000 && carrinhoCompras.getTotal().intValue() < 10000) {
-			// aplicar 7% desconto no valor total.
-			aplicarDescontoNoValorTotal(carrinhoCompras, 7);
-		} else {
-			// total acima de 10.000 aplicar desconto de 10%.
-			aplicarDescontoNoValorTotal(carrinhoCompras, 10);
+		if (carrinhoCompras != null && carrinhoCompras.getProdutos().size() > 0) {
+			for (Produto produto : carrinhoCompras.getProdutos()) {
+				BigDecimal quantidade = BigDecimal.valueOf(produto.getQuantidade());
+				valorSubTotal = quantidade.multiply(produto.getPreco());
+				valorTotal = valorTotal.add(valorSubTotal);
+				valorSubTotal = valorTotal;
+			}
+			
+			carrinhoCompras.setSubTotal(valorSubTotal);
+			carrinhoCompras.setTotal(valorTotal);
+			
+			if (carrinhoCompras.getTotal().intValue() >= 1000 && carrinhoCompras.getTotal().intValue() < 5000) {
+				// aplicar 5% desconto no valor total.
+				aplicarDescontoNoValorTotal(carrinhoCompras, 5);
+			} else if (carrinhoCompras.getTotal().intValue() >= 5000 && carrinhoCompras.getTotal().intValue() < 10000) {
+				// aplicar 7% desconto no valor total.
+				aplicarDescontoNoValorTotal(carrinhoCompras, 7);
+			} else if (carrinhoCompras.getTotal().intValue() > 10000) {
+				// total acima de 10.000 aplicar desconto de 10%.
+				aplicarDescontoNoValorTotal(carrinhoCompras, 10);
+			}
 		}
 	}
 
@@ -146,7 +148,7 @@ public class CarrinhoComprasServiceImpl implements CarrinhoComprasService {
 	 * */
 	private void aplicarPercentualDescontoItensMesmoTipo(CarrinhoCompras carrinhoCompras) {
 		
-		if (carrinhoCompras != null && !carrinhoCompras.getProdutos().isEmpty()) {
+		if (carrinhoCompras != null && carrinhoCompras.getProdutos().size() > 0) {
 			List<Produto> produtos = carrinhoCompras.getProdutos();
 			
 			for (Produto p : produtos) {

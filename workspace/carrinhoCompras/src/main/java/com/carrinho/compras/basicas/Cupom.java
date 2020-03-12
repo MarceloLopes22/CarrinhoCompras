@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@SequenceGenerator(allocationSize = 1, initialValue = 1, name = "cupom_seq", sequenceName = "cupom_seq")
+@SequenceGenerator(allocationSize = 1, name = "cupom_seq", sequenceName = "cupom_seq")
 @Table(name = "cupom")
 public class Cupom implements Serializable {
 
@@ -32,7 +32,7 @@ public class Cupom implements Serializable {
 	private Boolean isCupomUsado;
 	
 	public Cupom() {
-		this.setCupomUsado(false);
+		//this.setCupomUsado(false);
 	}
 
 	public Long getId() {

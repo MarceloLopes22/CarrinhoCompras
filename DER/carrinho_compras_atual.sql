@@ -98,18 +98,6 @@ CREATE SEQUENCE public.produto_seq
 	OWNED BY NONE;
 -- ddl-end --
 
--- object: public."carrinho_compras_Seq" | type: SEQUENCE --
--- DROP SEQUENCE public."carrinho_compras_Seq";
-CREATE SEQUENCE public."carrinho_compras_Seq"
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 2147483647
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-
 -- object: public.carrinho_compras_seq | type: SEQUENCE --
 -- DROP SEQUENCE public.carrinho_compras_seq;
 CREATE SEQUENCE public.carrinho_compras_seq
