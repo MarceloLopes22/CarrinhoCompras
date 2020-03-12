@@ -99,15 +99,4 @@ public class CarrinhoCompras implements Serializable {
 	public void setCupom(Cupom cupom) {
 		this.cupom = cupom;
 	}
-
-	public List<Cupom> getCuponsDiferentes(Cupom cupom) {
-		
-		List<Cupom> diferentes = new ArrayList<>();
-		for (Cupom c : cupons) {
-			if (cupom.getId() != c.getId()) {
-				diferentes.add(c);
-			}
-		}
-		return diferentes;
-	}
 }

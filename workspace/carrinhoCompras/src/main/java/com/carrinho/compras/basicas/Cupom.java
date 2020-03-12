@@ -30,10 +30,6 @@ public class Cupom implements Serializable {
 	
 	@Column(name = "is_cupom_usado")
 	private Boolean isCupomUsado;
-	
-	public Cupom() {
-		//this.setCupomUsado(false);
-	}
 
 	public Long getId() {
 		return id;
