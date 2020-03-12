@@ -92,7 +92,7 @@ public class CarrinhoComprasServiceImpl implements CarrinhoComprasService {
 					if (response.getErros().isEmpty()) {
 						aplicarDescontoNoValorTotal(carrinhoCompras, maiorValor);
 						cupom.setCupomUsado(true);
-						cupomService.atualizar(cupom, null);
+						cupomService.atualizar(cupom);
 						carrinhoCompras.setCupom(cupom);
 					}
 				}
@@ -113,6 +113,7 @@ public class CarrinhoComprasServiceImpl implements CarrinhoComprasService {
 		BigDecimal valorSubTotal = BigDecimal.ZERO;
 		
 		if (carrinhoCompras != null && carrinhoCompras.getProdutos().size() > 0) {
+			
 			for (Produto produto : carrinhoCompras.getProdutos()) {
 				BigDecimal quantidade = BigDecimal.valueOf(produto.getQuantidade());
 				valorSubTotal = quantidade.multiply(produto.getPreco());

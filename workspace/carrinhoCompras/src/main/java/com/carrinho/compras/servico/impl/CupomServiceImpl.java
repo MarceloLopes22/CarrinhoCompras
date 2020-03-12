@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import com.carrinho.compras.basicas.Cupom;
 import com.carrinho.compras.controles.resposta.Response;
@@ -25,7 +24,7 @@ public class CupomServiceImpl implements CupomService {
 	private CupomDAO dao;
 	
 	@Override
-	public ResponseEntity<Response<Cupom>> salvar(Cupom cupom, BindingResult result) {
+	public ResponseEntity<Response<Cupom>> salvar(Cupom cupom) {
 		
 		Response<Cupom> response = new Response<Cupom>();
 		
@@ -37,7 +36,7 @@ public class CupomServiceImpl implements CupomService {
 	}
 
 	@Override
-	public ResponseEntity<Response<Cupom>> atualizar(Cupom cupom, BindingResult result) {
+	public ResponseEntity<Response<Cupom>> atualizar(Cupom cupom) {
 		Response<Cupom> response = new Response<Cupom>();
 		
 		Optional<Cupom> cupomPesquisado = dao.findById(cupom.getId());

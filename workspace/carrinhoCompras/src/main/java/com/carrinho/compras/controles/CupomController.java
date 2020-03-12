@@ -6,7 +6,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,15 +30,13 @@ public class CupomController {
 	private CupomService service;
 
 	@PostMapping(value = "/cupom/salvar")
-	public ResponseEntity<Response<Cupom>> salvar(HttpServletRequest request, @RequestBody @Valid Cupom cupom,
-			BindingResult result) {
-		return this.service.salvar(cupom, result);
+	public ResponseEntity<Response<Cupom>> salvar(HttpServletRequest request, @RequestBody @Valid Cupom cupom) {
+		return this.service.salvar(cupom);
 	}
 
 	@PutMapping(value = "/cupom/atualizar")
-	public ResponseEntity<Response<Cupom>> atualizar(HttpServletRequest request, @RequestBody @Valid Cupom cupom,
-			BindingResult result) {
-		return this.service.atualizar(cupom, result);
+	public ResponseEntity<Response<Cupom>> atualizar(HttpServletRequest request, @RequestBody @Valid Cupom cupom) {
+		return this.service.atualizar(cupom);
 	}
 
 	@RequestMapping(value = "/cupom/pesquisarPorId/{id}", method = RequestMethod.GET)
